@@ -1,0 +1,35 @@
+import Link from 'next/link';
+import Icon, { Star } from '../../components/Icons';
+import { EXPERIENCES, img } from '../../lib/data';
+
+export const metadata = { title: 'Experiences in Pokhara' };
+
+export default function Experiences() {
+  return (
+    <main>
+      <section className="wrap-wide page-hero">
+        <div className="banner">
+          <img src={img('sarangkot')} alt="Visitors watching sunrise over cloud and the Annapurna range from Sarangkot" style={{ objectPosition: '50% 60%' }} />
+          <div className="banner-in"><p className="eyebrow">Experiences</p><h1>Do more than stay in Pokhara.</h1></div>
+        </div>
+      </section>
+      <section className="wrap-wide sec">
+        <div className="sec-h"><div><h2>Local experiences, hosted by neighbours</h2><p className="muted">Sample experiences. Prices are per person.</p></div></div>
+        <div className="exp-grid">
+          {EXPERIENCES.map((e) => (
+            <article key={e.id} className="exp">
+              <div className="exp-img">
+                <img src={img(e.img)} alt={e.title} loading="lazy" style={{ objectPosition: e.pos }} />
+                {e.tag && <span className="lc-badge">{e.tag}</span>}
+              </div>
+              <div className="lc-row"><b>{e.title}</b></div>
+              <p className="muted">{e.area} · {e.dur}</p>
+              <p className="exp-p"><span className="rate"><Star size={13} /> {e.rating.toFixed(2)}</span> · from <b>NPR {e.price.toLocaleString('en-IN')}</b> person</p>
+              <Link href={`/apartments?area=${e.area}`} className="more">Stay nearby in {e.area} <Icon name="chevR" size={14} /></Link>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
