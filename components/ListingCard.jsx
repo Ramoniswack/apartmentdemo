@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Icon, { Star } from './Icons';
 import { useApp } from './Providers';
-import { img, rateFor } from '../lib/data';
+import { img } from '../lib/data';
 
 export default function ListingCard({ l, nights = 0, active = false, onHover }) {
   const { fmt, saved, toggleSave } = useApp();
@@ -34,15 +34,10 @@ export default function ListingCard({ l, nights = 0, active = false, onHover }) 
         )}
       </div>
       <Link href={`/apartments/${l.id}`} className="lc-body">
-        <div className="lc-row"><b>{l.type.replace('Entire ', '')} in {l.area}</b><span className="rate"><Star size={13} /> {l.rating.toFixed(2)}</span></div>
-        <p className="muted">{l.title}</p>
-        <p className="muted">{l.bedrooms === 1 ? '1 bedroom' : `${l.bedrooms} bedrooms`} · Up to {l.guests} guests</p>
-        <p className="lc-price"><b>{fmt(l.price)}</b> night<span className="lc-tag">Offers welcome</span>{nights > 0 ? <span className="muted mo">{fmt(l.price * nights)} total for {nights} night{nights > 1 ? 's' : ''}</span> : null}</p>
-        <div className="lc-rates" aria-label="Weekly, monthly and yearly rates">
-          <span><small>Week</small><b>{fmt(rateFor(l, 'week'))}</b></span>
-          <span><small>Month</small><b>{fmt(rateFor(l, 'month'))}</b></span>
-          <span><small>Year</small><b>{fmt(rateFor(l, 'year'))}</b></span>
-        </div>
+        <div className="lc-location"><b>{l.type.replace('Entire apartment', 'Apartment').replace('Entire studio', 'Studio').replace('Entire loft', 'Loft').replace('Entire suite', 'Suite').replace('Entire villa', 'Villa')} in {l.area}</b><span className="rate"><Star size={13} /> {l.rating.toFixed(2)}</span></div>
+        <p className="lc-title">{l.title}</p>
+        <p className="lc-meta">{l.bedrooms === 1 ? '1 bedroom' : `${l.bedrooms} bedrooms`} · Up to {l.guests} guests</p>
+        <p className="lc-price"><b>{fmt(l.price)}</b><span> / night</span>{nights > 0 ? <span className="muted mo">{fmt(l.price * nights)} total for {nights} nights</span> : null}</p>
       </Link>
     </article>
   );

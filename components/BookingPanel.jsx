@@ -6,12 +6,9 @@ import { useApp } from './Providers';
 import { PLANS, rateFor } from '../lib/data';
 import { fmtShort, nightsBetween } from '../lib/dates';
 
-// Price and deal panel: nightly, weekly, monthly and yearly rates, plus an offer
-// or message to the host (demo: nothing is sent).
+// Nightly price and offer panel (demo: nothing is sent).
 export default function BookingPanel({ l, dates, setDates, guests, setGuests, blocked }) {
   const { fmt } = useApp();
-  const [plan, setPlan] = useState('night');
-  const [count, setCount] = useState(1);
   const [cal, setCal] = useState(false);
   const [gOpen, setGOpen] = useState(false);
   const [mode, setMode] = useState('offer'); // 'offer' | 'inquiry'
@@ -20,25 +17,17 @@ export default function BookingPanel({ l, dates, setDates, guests, setGuests, bl
   const [err, setErr] = useState('');
   const [sent, setSent] = useState(null);
 
-  const P = PLANS.find((x) => x.id === plan);
-  const price = rateFor(l, plan);
-  const isNight = plan === 'night';
+  const P = PLANS[0];
+  const price = rateFor(l, 'night');
   const nights = dates.start && dates.end ? nightsBetween(dates.start, dates.end) : 0;
-  const units = isNight ? nights : count;
+  const units = nights;
   const stay = units * price;
   const service = Math.round(stay * 0.1);
   const total = stay + (units ? l.cleaning : 0) + service;
   const minOffer = Math.round((price * 0.6) / P.step) * P.step;
   const diff = Math.round(((price - offer) / price) * 100);
   const offerTotal = units ? units * offer + l.cleaning : 0;
-  const perMonth = Math.round(price / (P.days / 30) / 100) * 100;
-  const saving = Math.round(P.off * 100);
   const unitLabel = (n) => (n === 1 ? P.unit : P.plural);
-
-  const pickPlan = (id) => {
-    setPlan(id); setSent(null); setErr(''); setCal(false); setGOpen(false);
-    setOffer(rateFor(l, id));
-  };
   const set = (k) => (e) => { setF({ ...f, [k]: e.target.value }); setErr(''); };
   const submit = (e) => {
     e.preventDefault();
@@ -55,48 +44,21 @@ export default function BookingPanel({ l, dates, setDates, guests, setGuests, bl
         <span className="rate"><Star size={13} /> {l.rating.toFixed(2)} · <a href="#reviews" className="ul">{l.reviews} reviews</a></span>
       </div>
       <p className="book-sub muted small-t">
-        {isNight ? 'Pay less with a weekly, monthly or yearly plan.' : <><b className="brand-c">Save {saving}%</b> vs nightly{plan !== 'week' ? <> · about {fmt(perMonth)} per month</> : null}.</>}
-        {' '}{fmt(l.cleaning)} one-time cleaning fee · <b className="brand-c">Offers welcome</b>
+        {fmt(l.cleaning)} one-time cleaning fee · <b className="brand-c">Offers welcome</b>
       </p>
 
-      <div className="plan-rates" role="tablist" aria-label="Stay length and rates">
-        {PLANS.map((x) => (
-          <button key={x.id} role="tab" aria-selected={plan === x.id} className={plan === x.id ? 'on' : ''} onClick={() => pickPlan(x.id)}>
-            <small>{x.label}{x.off ? ` · save ${Math.round(x.off * 100)}%` : ''}</small><b>{fmt(rateFor(l, x.id))}</b>
-          </button>
-        ))}
+      <div className="book-fields">
+        <button className="bf" onClick={() => { setCal(!cal); setGOpen(false); }} aria-expanded={cal}>
+          <small>Check-in</small><span>{dates.start ? fmtShort(dates.start) : 'Add date'}</span>
+        </button>
+        <button className="bf" onClick={() => { setCal(!cal); setGOpen(false); }} aria-expanded={cal}>
+          <small>Check-out</small><span>{dates.end ? fmtShort(dates.end) : 'Add date'}</span>
+        </button>
+        <button className="bf wide" onClick={() => { setGOpen(!gOpen); setCal(false); }} aria-expanded={gOpen}>
+          <small>Guests</small><span>{guests} guest{guests > 1 ? 's' : ''}</span><Icon name="chevD" size={16} />
+        </button>
       </div>
-
-      {isNight ? (
-        <>
-          <div className="book-fields">
-            <button className="bf" onClick={() => { setCal(!cal); setGOpen(false); }} aria-expanded={cal}>
-              <small>Check-in</small><span>{dates.start ? fmtShort(dates.start) : 'Add date'}</span>
-            </button>
-            <button className="bf" onClick={() => { setCal(!cal); setGOpen(false); }} aria-expanded={cal}>
-              <small>Check-out</small><span>{dates.end ? fmtShort(dates.end) : 'Add date'}</span>
-            </button>
-            <button className="bf wide" onClick={() => { setGOpen(!gOpen); setCal(false); }} aria-expanded={gOpen}>
-              <small>Guests</small><span>{guests} guest{guests > 1 ? 's' : ''}</span><Icon name="chevD" size={16} />
-            </button>
-          </div>
-          {cal && <div className="book-cal"><DateRange start={dates.start} end={dates.end} onChange={(d) => { setDates(d); setSent(null); }} blocked={blocked} months={1} /></div>}
-        </>
-      ) : (
-        <div className="book-fields single">
-          <div className="book-g flat">
-            <div><b>Duration</b><span className="muted small-t">Number of {P.plural}</span></div>
-            <div className="stepper">
-              <button onClick={() => { setCount(Math.max(1, count - 1)); setSent(null); }} disabled={count <= 1} aria-label={`Fewer ${P.plural}`}><Icon name="minus" size={14} /></button>
-              <span aria-live="polite">{count}</span>
-              <button onClick={() => { setCount(Math.min(plan === 'year' ? 5 : 24, count + 1)); setSent(null); }} aria-label={`More ${P.plural}`}><Icon name="plus" size={14} /></button>
-            </div>
-          </div>
-          <button className="bf wide" onClick={() => setGOpen(!gOpen)} aria-expanded={gOpen}>
-            <small>Guests</small><span>{guests} guest{guests > 1 ? 's' : ''}</span><Icon name="chevD" size={16} />
-          </button>
-        </div>
-      )}
+      {cal && <div className="book-cal"><DateRange start={dates.start} end={dates.end} onChange={(d) => { setDates(d); setSent(null); }} blocked={blocked} months={1} /></div>}
 
       {gOpen && (
         <div className="book-g">
@@ -119,8 +81,6 @@ export default function BookingPanel({ l, dates, setDates, guests, setGuests, bl
       ) : (
         <p className="center muted small-t" style={{ marginTop: 12 }}>Add dates to see the total price</p>
       )}
-      {!isNight && <p className="center muted small-t" style={{ marginTop: 10 }}>Move-in date is agreed with the host.</p>}
-
       <div className="deal">
         <div className="deal-tabs" role="tablist" aria-label="How would you like to proceed?">
           <button role="tab" aria-selected={mode === 'offer'} className={mode === 'offer' ? 'on' : ''} onClick={() => { setMode('offer'); setSent(null); }}>Make an offer</button>
