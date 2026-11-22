@@ -54,7 +54,6 @@ export default function Header() {
       <div className="wrap-wide hdr-top">
         <Link href="/" className="logo" aria-label={`${BRAND} home`}>
           <LogoMark />
-          <span className="logo-t">{BRAND.toUpperCase()}</span>
         </Link>
 
         <nav className="hdr-nav" aria-label="Primary">
@@ -70,11 +69,11 @@ export default function Header() {
           <button className="icon-btn round" onClick={openPicker} aria-label={`Language and currency, ${cur}`}><Icon name="globe" size={18} /></button>
           <button className="hamburger" onClick={() => setMnav(true)} aria-label="Open navigation" aria-expanded={mnav} aria-controls="mobile-nav"><Icon name="menu" size={24} /></button>
           <div className="acct" ref={menuRef}>
-            <button className="acct-btn" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-haspopup="menu" aria-label="Menu">
+            <Link href="/login" className="acct-btn" aria-label="Log in or create an account">
               <Icon name="menu" size={18} />
               <span className="avatar"><Icon name="user" size={16} /></span>
               {saved.length > 0 && <b className="dot" aria-label={`${saved.length} saved`} />}
-            </button>
+            </Link>
             {menu && <div className="menu-back" onClick={() => setMenu(false)} />}
             {menu && (
               <div className="menu" role="menu">
@@ -105,13 +104,14 @@ export default function Header() {
       {mnav && (
         <div className="mnav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation" data-lenis-prevent>
           <div className="mnav-top">
-            <Link href="/" className="logo" aria-label={`${BRAND} home`}><LogoMark /><span className="logo-t">{BRAND.toUpperCase()}</span></Link>
+            <Link href="/" className="logo" aria-label={`${BRAND} home`}><LogoMark /></Link>
             <button className="hamburger" onClick={() => setMnav(false)} aria-label="Close navigation"><Icon name="close" size={24} /></button>
           </div>
           <nav className="mnav-links" aria-label="Mobile">
             {NAV.map((n) => <Link key={n.href} href={n.href} className={isActive(n.href) ? 'on' : ''}><Icon name={n.icon} size={20} /> {n.label}</Link>)}
             <Link href="/apartments?saved=1"><Icon name="heart" size={20} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
             <Link href="/host"><Icon name="key" size={20} /> Host your apartment</Link>
+            <Link href="/login"><Icon name="user" size={20} /> Log in or sign up</Link>
             <Link href="/help"><Icon name="info" size={20} /> Help Centre</Link>
           </nav>
           <div className="mnav-foot">

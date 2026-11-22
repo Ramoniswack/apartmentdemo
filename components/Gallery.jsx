@@ -7,8 +7,10 @@ export default function Gallery({ l }) {
   const [open, setOpen] = useState(null);
   const [idx, setIdx] = useState(0);
   const strip = useRef(null);
-  const n = l.images.length;
-  const grid = l.images.slice(0, 5);
+  const images = Array.isArray(l?.images) ? l.images : [];
+  const positions = Array.isArray(l?.pos) ? l.pos : [];
+  const n = images.length;
+  const grid = images.slice(0, 5);
 
   const move = useCallback((d) => setOpen((o) => (o === null ? o : (o + d + n) % n)), [n]);
 
@@ -28,7 +30,7 @@ export default function Gallery({ l }) {
       <div className="gal">
         {grid.map((name, i) => (
           <button key={name} className={`gal-i i${i}`} onClick={() => setOpen(i)} aria-label={`Open photo ${i + 1} of ${n}`}>
-            <img src={img(name)} alt={i === 0 ? `${l.title}, main photo` : `${l.title}, photo ${i + 1}`} style={{ objectPosition: l.pos[i] || '50% 50%' }} />
+            <img src={img(name)} alt={i === 0 ? `${l.title}, main photo` : `${l.title}, photo ${i + 1}`} style={{ objectPosition: positions[i] || '50% 50%' }} />
           </button>
         ))}
         <button className="gal-all" onClick={() => setOpen(0)}><Icon name="grid" size={16} /> Show all {n} photos</button>
@@ -36,9 +38,9 @@ export default function Gallery({ l }) {
 
       <div className="gal-m">
         <div className="gal-strip" ref={strip} onScroll={onScroll}>
-          {l.images.map((name, i) => (
+          {images.map((name, i) => (
             <button key={name} onClick={() => setOpen(i)} aria-label={`Open photo ${i + 1}`}>
-              <img src={img(name)} alt={i === 0 ? `${l.title}, main photo` : `${l.title}, photo ${i + 1}`} style={{ objectPosition: l.pos[i] || '50% 50%' }} />
+              <img src={img(name)} alt={i === 0 ? `${l.title}, main photo` : `${l.title}, photo ${i + 1}`} style={{ objectPosition: positions[i] || '50% 50%' }} />
             </button>
           ))}
         </div>
@@ -54,11 +56,11 @@ export default function Gallery({ l }) {
           </div>
           <div className="lb-stage">
             <button className="lb-nav l" onClick={() => move(-1)} aria-label="Previous photo"><Icon name="chevL" size={22} /></button>
-            <img src={img(l.images[open])} alt={`${l.title}, photo ${open + 1}`} />
+            <img src={img(images[open])} alt={`${l.title}, photo ${open + 1}`} />
             <button className="lb-nav r" onClick={() => move(1)} aria-label="Next photo"><Icon name="chevR" size={22} /></button>
           </div>
           <div className="lb-thumbs">
-            {l.images.map((name, i) => (
+            {images.map((name, i) => (
               <button key={name} className={i === open ? 'on' : ''} onClick={() => setOpen(i)} aria-label={`Photo ${i + 1}`}><img src={img(name)} alt="" /></button>
             ))}
           </div>

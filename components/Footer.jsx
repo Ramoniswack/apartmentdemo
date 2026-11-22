@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Icon, { LogoMark } from './Icons';
+import Icon from './Icons';
 import { LangCurrencyButton, BackToTop } from './FooterClient';
 import { BRAND } from '../lib/data';
 
@@ -28,8 +28,7 @@ export default function Footer() {
         <div className="foot-main">
           <div className="foot-brand">
             <Link href="/" className="foot-logo" aria-label={`${BRAND} home`}>
-              <LogoMark size={30} />
-              <span>{BRAND.toUpperCase()}</span>
+              <img className="foot-logo-image" src="/images/demostay-logo-footer.png" alt="DemoStay" />
             </Link>
             <p>Hand-picked apartments with Phewa Lake and Annapurna views, hosted by people who live in Pokhara.</p>
             <LangCurrencyButton />

@@ -31,6 +31,6 @@ export function Star({ size = 14 }) {
   return <StarIcon size={size} fill="currentColor" strokeWidth={0} aria-hidden="true" focusable="false" />;
 }
 
-export function LogoMark({ size = 32 }) {
-  return <Mountain size={size} strokeWidth={2.2} color="var(--brand)" aria-hidden="true" focusable="false" />;
+export function LogoMark({ size = 42 }) {
+  return <img className="logo-image" src="/images/demostay-logo-navbar.png" alt="" style={{ width: size * 4.2, height: size }} aria-hidden="true" />;
 }
