@@ -11,7 +11,13 @@ export default function LoginPage() {
 
   const submit = (event) => {
     event.preventDefault();
+    localStorage.setItem('ps-auth', '1');
     setSubmitted(true);
+
+    const redirect = new URLSearchParams(window.location.search).get('redirect');
+    if (redirect && redirect.startsWith('/')) {
+      window.setTimeout(() => window.location.assign(redirect), 450);
+    }
   };
 
   return (

@@ -12,29 +12,37 @@ const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch { /* stora
 export default function Providers({ children }) {
   const [cur, setCurState] = useState('NPR');
   const [saved, setSaved] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [picker, setPicker] = useState(false);
 
   useEffect(() => {
     const c = safeGet('ps-cur');
     if (c === 'USD' || c === 'NPR') setCurState(c);
+    setLoggedIn(safeGet('ps-auth') === '1');
     try { const s = JSON.parse(safeGet('ps-saved') || '[]'); if (Array.isArray(s)) setSaved(s); } catch { /* ignore */ }
   }, []);
 
   const setCur = useCallback((c) => { setCurState(c); safeSet('ps-cur', c); }, []);
   const toggleSave = useCallback((id) => {
+    if (!loggedIn) {
+      const redirect = `${window.location.pathname}${window.location.search}`;
+      window.location.assign(`/login?redirect=${encodeURIComponent(redirect)}`);
+      return;
+    }
+
     setSaved((prev) => {
       const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
       safeSet('ps-saved', JSON.stringify(next));
       return next;
     });
-  }, []);
+  }, [loggedIn]);
 
   const fmt = useCallback(
     (npr) => (cur === 'USD' ? `$${Math.round(npr / USD_RATE).toLocaleString('en-US')}` : `NPR ${Math.round(npr).toLocaleString('en-IN')}`),
     [cur],
   );
 
-  const value = useMemo(() => ({ cur, setCur, fmt, saved, toggleSave, openPicker: () => setPicker(true) }), [cur, setCur, fmt, saved, toggleSave]);
+  const value = useMemo(() => ({ cur, setCur, fmt, saved, loggedIn, toggleSave, openPicker: () => setPicker(true) }), [cur, setCur, fmt, saved, loggedIn, toggleSave]);
 
   useEffect(() => {
     if (!picker) return;
