@@ -52,12 +52,12 @@ export default function Home() {
 
       {/* ---- Destination inspiration ---- */}
       <section className="wrap-wide sec" id="neighborhoods">
-        <div className="sec-h"><div><h2>Find your neighbourhood</h2><p className="muted">Five very different corners of Pokhara, all within reach of the lake.</p></div></div>
+        <div className="sec-h"><div><h2>Find your neighbourhood</h2><p className="muted">Five very different corners of Pokhara, all within reach of the lake.</p></div><Link href="/neighborhoods" className="more">Explore neighbourhoods <Icon name="chevR" size={14} /></Link></div>
         <Rail>
           {AREAS.map((a) => {
             const n = byArea(a.name).length;
             return (
-              <Link key={a.id} href={`/apartments?area=${a.name}`} className="dest rail-i">
+              <Link key={a.id} href={`/neighborhoods/${a.id}`} className="dest rail-i">
                 <img src={img(a.img)} alt={`${a.name}, Pokhara`} loading="lazy" style={{ objectPosition: a.pos }} />
                 <div className="dest-t"><b>{a.name}</b><span>{a.blurb}</span><em>{n} {n === 1 ? 'apartment' : 'apartments'}</em></div>
               </Link>

@@ -7,12 +7,6 @@ export const metadata = { title: 'Experiences in Pokhara' };
 export default function Experiences() {
   return (
     <main>
-      <section className="wrap-wide page-hero">
-        <div className="banner">
-          <img src={img('sarangkot')} alt="Visitors watching sunrise over cloud and the Annapurna range from Sarangkot" style={{ objectPosition: '50% 60%' }} />
-          <div className="banner-in"><p className="eyebrow">Experiences</p><h1>Do more than stay in Pokhara.</h1></div>
-        </div>
-      </section>
       <section className="wrap-wide sec">
         <div className="sec-h"><div><h2>Local experiences, hosted by neighbours</h2><p className="muted">Sample experiences. Prices are per person.</p></div></div>
         <div className="exp-grid">

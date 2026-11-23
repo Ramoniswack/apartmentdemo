@@ -115,7 +115,7 @@ export default function ListingView({ l }) {
         <section className="l-sec wide" id="location">
           <h2>Where you'll be</h2>
           <p className="muted">{l.area}, Pokhara, Nepal · {area?.blurb}</p>
-          <div className="map-box"><MapView pins={[{ id: l.id, x: l.map[0], y: l.map[1], price: l.price, title: l.title, rating: l.rating, area: l.area, image: l.images[0] }]} single /></div>
+          <div className="map-box"><MapView pins={[{ id: l.id, x: l.map[0], y: l.map[1], lat: area?.lat, lng: area?.lng, price: l.price, title: l.title, rating: l.rating, area: l.area, image: l.images[0] }]} single location={`${l.title}, ${l.area}, Pokhara, Nepal`} title={`${l.title}, ${l.area}`} /></div>
         </section>
 
         <section className="l-sec wide" id="rules">
@@ -131,7 +131,7 @@ export default function ListingView({ l }) {
           <h2>Meet your host</h2>
           <div className="hc">
             <div className="hc-l"><span className="host-av l">{l.host.name[0]}</span><b>{l.host.name}</b><span className="muted small-t">{l.host.superhost ? 'Superhost' : 'Host'}</span></div>
-            <div className="hc-m"><div><b>{l.reviews}</b><span>Reviews</span></div><div><b>{l.rating.toFixed(2)}</b><span>Rating</span></div><div><b>{l.host.years}</b><span>Years hosting</span></div></div>
+            <div className="hc-m"><div><b>{l.reviews}</b><span>Reviews</span></div><div><b><Star size={13} /> {l.rating.toFixed(2)}</b><span>Rating</span></div><div><b>{l.host.years}</b><span>Years hosting</span></div></div>
             <div className="hc-r">
               <p className="muted">Response rate: {l.host.response}<br />Responds {l.host.time}</p>
               <p>{l.host.name} lives in Pokhara and loves sharing local tips: where to catch sunrise, which cafés open early and how to get around.</p>

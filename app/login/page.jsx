@@ -15,8 +15,10 @@ export default function LoginPage() {
     setSubmitted(true);
 
     const redirect = new URLSearchParams(window.location.search).get('redirect');
-    if (redirect && redirect.startsWith('/')) {
+    if (redirect && redirect.startsWith('/') && redirect !== '/login') {
       window.setTimeout(() => window.location.assign(redirect), 450);
+    } else {
+      window.setTimeout(() => window.location.assign('/account'), 450);
     }
   };
 

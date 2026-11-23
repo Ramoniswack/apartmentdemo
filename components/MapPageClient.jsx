@@ -7,7 +7,7 @@ import DateRange from './DateRange';
 import ListingCard from './ListingCard';
 import MapView from './MapView';
 import { useApp } from './Providers';
-import { LISTINGS } from '../lib/data';
+import { AREAS, LISTINGS } from '../lib/data';
 import { blockedRanges, fmtShort, nightsBetween, rangeIsFree } from '../lib/dates';
 
 // Map view: every apartment that is free for the chosen dates, pinned on the map.
@@ -17,13 +17,30 @@ export default function MapPageClient() {
   const [guests, setGuests] = useState(1);
   const [view, setView] = useState('map');
   const [hover, setHover] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   const nights = dates.start && dates.end ? nightsBetween(dates.start, dates.end) : 0;
   const list = useMemo(
     () => LISTINGS.filter((l) => l.guests >= guests && (!nights || rangeIsFree(dates.start, dates.end, blockedRanges(l)))),
     [dates, guests, nights],
   );
-  const pins = list.map((l) => ({ id: l.id, x: l.map[0], y: l.map[1], price: l.price, title: l.title, rating: l.rating, area: l.area, image: l.images[0], saved: saved.includes(l.id) }));
+  const pins = list.map((l) => {
+    const area = AREAS.find((item) => item.name === l.area);
+    return { id: l.id, x: l.map[0], y: l.map[1], lat: area?.lat, lng: area?.lng, price: l.price, title: l.title, rating: l.rating, area: l.area, image: l.images[0], saved: saved.includes(l.id) };
+  });
+
+  const selectListing = (id) => {
+    if (!id) {
+      setSelected(null);
+      return;
+    }
+    setSelected(id);
+    window.requestAnimationFrame(() => {
+      const card = [...document.querySelectorAll('[data-listing-card]')]
+        .find((item) => item.dataset.listingCard === id);
+      card?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    });
+  };
 
   return (
     <main className="results">
@@ -59,10 +76,10 @@ export default function MapPageClient() {
           {list.length === 0 ? (
             <div className="empty"><h3>No apartments available</h3><p className="muted">Try different dates or fewer guests.</p><button className="btn out" onClick={() => { setDates({ start: null, end: null }); setGuests(1); }}>Clear filters</button></div>
           ) : (
-            <div className="l-cards one">{list.map((l) => <ListingCard key={l.id} l={l} nights={nights} active={hover === l.id} onHover={setHover} />)}</div>
+            <div className="l-cards one">{list.map((l) => <ListingCard key={l.id} l={l} nights={nights} active={hover === l.id || selected === l.id} onHover={setHover} onSelect={selectListing} disableNavigation />)}</div>
           )}
         </div>
-        <div className="s-map"><MapView pins={pins} activeId={hover} onActive={setHover} /></div>
+        <div className="s-map"><MapView pins={pins} activeId={hover} selectedId={selected} onActive={setHover} onSelect={selectListing} /></div>
       </div>
 
       <button className="view-toggle" onClick={() => setView(view === 'map' ? 'list' : 'map')}>

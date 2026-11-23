@@ -10,12 +10,12 @@ const NAV = [
   { href: '/apartments', label: 'Apartments', icon: 'home' },
   { href: '/map', label: 'Map', icon: 'map' },
   { href: '/experiences', label: 'Experiences', icon: 'sun' },
-  { href: '/#neighborhoods', label: 'Neighborhoods', icon: 'pin' },
+  { href: '/neighborhoods', label: 'Neighborhoods', icon: 'pin' },
 ];
 
 export default function Header() {
   const path = usePathname();
-  const { cur, saved, openPicker } = useApp();
+  const { cur, saved, loggedIn, openPicker } = useApp();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const [mnav, setMnav] = useState(false);
@@ -47,7 +47,7 @@ export default function Header() {
     return () => { window.removeEventListener('keydown', key); document.documentElement.style.overflow = ''; };
   }, [mnav]);
 
-  const isActive = (h) => (h === '/apartments' ? path.startsWith('/apartments') : h === '/experiences' ? path === '/experiences' : false);
+  const isActive = (h) => (h === '/apartments' ? path.startsWith('/apartments') : h === '/experiences' ? path === '/experiences' : h === '/neighborhoods' ? path.startsWith('/neighborhoods') : false);
 
   return (
     <header className={`hdr${scrolled ? ' is-scrolled' : ''}`}>
@@ -69,7 +69,7 @@ export default function Header() {
           <button className="icon-btn round" onClick={openPicker} aria-label={`Language and currency, ${cur}`}><Icon name="globe" size={18} /></button>
           <button className="hamburger" onClick={() => setMnav(true)} aria-label="Open navigation" aria-expanded={mnav} aria-controls="mobile-nav"><Icon name="menu" size={24} /></button>
           <div className="acct" ref={menuRef}>
-            <Link href="/login" className="acct-btn" aria-label="Log in or create an account">
+            <Link href={loggedIn ? '/account' : '/login'} className="acct-btn" aria-label={loggedIn ? 'Open your account' : 'Log in or create an account'}>
               <Icon name="menu" size={18} />
               <span className="avatar"><Icon name="user" size={16} /></span>
               {saved.length > 0 && <b className="dot" aria-label={`${saved.length} saved`} />}
@@ -82,7 +82,7 @@ export default function Header() {
                   {NAV.map((n) => <Link key={n.href} href={n.href} role="menuitem"><Icon name={n.icon} size={18} /> {n.label}</Link>)}
                   <hr />
                 </div>
-                <Link href="/apartments?saved=1" role="menuitem"><Icon name="heart" size={18} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
+                <Link href={loggedIn ? '/account' : '/apartments?saved=1'} role="menuitem"><Icon name="heart" size={18} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
                 <Link href="/host" role="menuitem"><Icon name="key" size={18} /> Host your apartment</Link>
                 <Link href="/help" role="menuitem"><Icon name="info" size={18} /> Help Centre</Link>
                 <hr />
@@ -93,7 +93,7 @@ export default function Header() {
         </div>
       </div>
 
-      {path !== '/' && <div className="wrap-wide hdr-search">
+      {path !== '/' && path !== '/login' && <div className="wrap-wide hdr-search">
         <div className="pill" role="search">
           <Link href="/apartments" className="seg"><small>Where</small><span>Search neighbourhoods</span></Link>
           <Link href="/apartments?open=dates" className="seg"><small>When</small><span>Add dates</span></Link>
@@ -109,9 +109,9 @@ export default function Header() {
           </div>
           <nav className="mnav-links" aria-label="Mobile">
             {NAV.map((n) => <Link key={n.href} href={n.href} className={isActive(n.href) ? 'on' : ''}><Icon name={n.icon} size={20} /> {n.label}</Link>)}
-            <Link href="/apartments?saved=1"><Icon name="heart" size={20} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
+            <Link href={loggedIn ? '/account' : '/apartments?saved=1'}><Icon name="heart" size={20} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
             <Link href="/host"><Icon name="key" size={20} /> Host your apartment</Link>
-            <Link href="/login"><Icon name="user" size={20} /> Log in or sign up</Link>
+            <Link href={loggedIn ? '/account' : '/login'}><Icon name="user" size={20} /> {loggedIn ? 'My account' : 'Log in or sign up'}</Link>
             <Link href="/help"><Icon name="info" size={20} /> Help Centre</Link>
           </nav>
           <div className="mnav-foot">

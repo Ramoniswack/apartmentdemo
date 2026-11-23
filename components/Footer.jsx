@@ -4,7 +4,7 @@ import { LangCurrencyButton, BackToTop } from './FooterClient';
 import { BRAND } from '../lib/data';
 
 const COLS = [
-  { title: 'Explore', links: [['Apartments', '/apartments'], ['Map', '/map'], ['Experiences', '/experiences'], ['Neighbourhoods', '/#neighborhoods']] },
+  { title: 'Explore', links: [['Apartments', '/apartments'], ['Map', '/map'], ['Experiences', '/experiences'], ['Neighbourhoods', '/neighborhoods']] },
   { title: 'Hosting', links: [['List your apartment', '/host'], ['Earnings estimator', '/host'], ['Hosting standards', '/help'], ['Photo visit', '/host']] },
   { title: 'Support', links: [['Help Centre', '/help'], ['Safety information', '/help'], ['Cancellation options', '/help'], ['Contact', '/help']] },
 ];
