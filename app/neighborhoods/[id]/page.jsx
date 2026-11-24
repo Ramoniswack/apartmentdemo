@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ListingCard from '../../../components/ListingCard';
 import Icon from '../../../components/Icons';
-import { AREAS, byArea } from '../../../lib/data';
+import { AREAS, byArea, img } from '../../../lib/data';
 
 export function generateStaticParams() {
   return AREAS.map((area) => ({ id: area.id }));
@@ -20,6 +20,34 @@ export default function NeighborhoodDetail({ params }) {
   const listings = byArea(area.name);
   return (
     <main>
+      <section className="wrap-wide neighborhood-detail-hero">
+        <div className="neighborhood-detail-image">
+          <img src={img(area.img)} alt={`${area.name}, Pokhara`} style={{ objectPosition: area.pos }} />
+          <div className="neighborhood-detail-overlay">
+            <p className="eyebrow">Neighbourhood guide</p>
+            <h1>{area.name}</h1>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap-wide neighborhood-detail-intro">
+        <div>
+          <p className="eyebrow">Around {area.name}</p>
+          <h2>{area.blurb}</h2>
+        </div>
+        <p className="muted">{area.description}</p>
+      </section>
+
+      <section className="wrap-wide neighborhood-highlights">
+        {area.highlights.map((highlight, index) => (
+          <div key={highlight}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <Icon name={index === 0 ? 'pin' : index === 1 ? 'sun' : 'mountain'} size={22} />
+            <b>{highlight}</b>
+          </div>
+        ))}
+      </section>
+
       <section className="wrap-wide sec">
         <div className="sec-h neighborhood-sec-h">
           <div className="neighborhood-title">

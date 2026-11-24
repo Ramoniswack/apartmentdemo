@@ -16,6 +16,49 @@ export default function NeighborhoodsClient() {
 
   return (
     <>
+      <section className="wrap-wide neighborhood-intro">
+        <div>
+          <p className="eyebrow">Discover Pokhara</p>
+          <h1>Find the neighbourhood that fits your stay</h1>
+        </div>
+      </section>
+
+      <section className="wrap-wide neighborhood-feature">
+        <Link href="/neighborhoods/lakeside" className="neighborhood-feature-main">
+          <img src={img('lakeside')} alt="Phewa Lake in Lakeside, Pokhara" />
+          <div className="neighborhood-feature-copy">
+            <p className="eyebrow">Most loved by visitors</p>
+            <h2>Lakeside</h2>
+            <p>Sunset walks, lake cafés and the easiest way to feel at the heart of Pokhara.</p>
+            <span>Explore Lakeside <Icon name="chevR" size={17} /></span>
+          </div>
+        </Link>
+        <div className="neighborhood-feature-side">
+          <Link href="/neighborhoods/sarangkot">
+            <img src={img('sarangkot')} alt="Sarangkot sunrise viewpoint" />
+            <span><b>Sunrise above the clouds</b><small>Sarangkot</small></span>
+          </Link>
+          <Link href="/neighborhoods/damside">
+            <img src={img('damside')} alt="Damside neighbourhood" />
+            <span><b>Calm by the southern shore</b><small>Damside</small></span>
+          </Link>
+        </div>
+      </section>
+
+      <section className="wrap-wide neighborhood-vibes">
+        {[
+          ['Lake life', 'wave', 'Boat rides, promenade walks and golden-hour cafés'],
+          ['Mountain mornings', 'mountain', 'Sunrise views and cool air above the city'],
+          ['Local flavour', 'coffee', 'Family kitchens, markets and neighbourhood favourites'],
+          ['Easy adventures', 'sun', 'Paragliding, hikes and day trips from your door'],
+        ].map(([title, icon, text]) => (
+          <article key={title}>
+            <span className="neighborhood-vibe-icon"><Icon name={icon} size={26} strokeWidth={1.9} /></span>
+            <h3>{title}</h3>
+            <p className="muted">{text}</p>
+          </article>
+        ))}
+      </section>
       <section className="wrap-wide sec">
         <div className="sec-h">
           <div>

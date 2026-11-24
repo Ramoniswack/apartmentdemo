@@ -121,7 +121,7 @@ export default function Home() {
           <div className="cta-box">
             <h2>Own an apartment in Pokhara?</h2>
             <p>List it on DemoStay and see what it could earn. We handle photos, guests and payouts.</p>
-            <Link href="/host" className="btn brand">Become a host</Link>
+            <Link href="/account?tab=hosting" className="btn brand">Become a host</Link>
           </div>
         </div>
       </section>

@@ -19,7 +19,15 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const [mnav, setMnav] = useState(false);
+  const [photo, setPhoto] = useState('');
   const menuRef = useRef(null);
+
+  useEffect(() => {
+    const loadPhoto = () => setPhoto(localStorage.getItem('ps-photo') || '');
+    loadPhoto();
+    window.addEventListener('ps-profile-updated', loadPhoto);
+    return () => window.removeEventListener('ps-profile-updated', loadPhoto);
+  }, []);
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 24);
@@ -65,15 +73,18 @@ export default function Header() {
         </nav>
 
         <div className="hdr-right">
-          <Link href="/host" className="host-link">Host your apartment</Link>
           <button className="icon-btn round" onClick={openPicker} aria-label={`Language and currency, ${cur}`}><Icon name="globe" size={18} /></button>
           <button className="hamburger" onClick={() => setMnav(true)} aria-label="Open navigation" aria-expanded={mnav} aria-controls="mobile-nav"><Icon name="menu" size={24} /></button>
           <div className="acct" ref={menuRef}>
-            <Link href={loggedIn ? '/account' : '/login'} className="acct-btn" aria-label={loggedIn ? 'Open your account' : 'Log in or create an account'}>
-              <Icon name="menu" size={18} />
-              <span className="avatar"><Icon name="user" size={16} /></span>
+            <div className="acct-btn">
+              <Link href={loggedIn ? '/account' : '/login'} className="avatar" aria-label={loggedIn ? 'Open account page' : 'Log in or create an account'}>
+                {photo ? <img src={photo} alt="" /> : <Icon name="user" size={16} />}
+              </Link>
+              <button type="button" className="acct-menu-btn" onClick={() => setMenu((value) => !value)} aria-label="Open account menu" aria-expanded={menu}>
+                <Icon name="menu" size={18} />
+              </button>
               {saved.length > 0 && <b className="dot" aria-label={`${saved.length} saved`} />}
-            </Link>
+            </div>
             {menu && <div className="menu-back" onClick={() => setMenu(false)} />}
             {menu && (
               <div className="menu" role="menu">
@@ -82,18 +93,50 @@ export default function Header() {
                   {NAV.map((n) => <Link key={n.href} href={n.href} role="menuitem"><Icon name={n.icon} size={18} /> {n.label}</Link>)}
                   <hr />
                 </div>
-                <Link href={loggedIn ? '/account' : '/apartments?saved=1'} role="menuitem"><Icon name="heart" size={18} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
-                <Link href="/host" role="menuitem"><Icon name="key" size={18} /> Host your apartment</Link>
-                <Link href="/help" role="menuitem"><Icon name="info" size={18} /> Help Centre</Link>
+                {loggedIn ? (
+                  <>
+                    <Link href="/account?tab=saved" role="menuitem"><Icon name="heart" size={20} /> Wishlists{saved.length ? ` (${saved.length})` : ''}</Link>
+                    <Link href="/account?tab=trips" role="menuitem"><Icon name="calendar" size={20} /> Trips</Link>
+                    <Link href="/account?tab=messages" role="menuitem"><Icon name="sparkle" size={20} /> Messages</Link>
+                    <Link href="/account?tab=profile" role="menuitem"><Icon name="user" size={20} /> Profile</Link>
+                    <hr />
+                    <button type="button" role="menuitem" onClick={() => setMenu(false)}><Icon name="bell" size={20} /> Notifications</button>
+                    <Link href="/account" role="menuitem"><Icon name="sliders" size={20} /> Account settings</Link>
+                    <button type="button" role="menuitem" onClick={() => { setMenu(false); openPicker(); }}><Icon name="globe" size={20} /> Languages & currency</button>
+                    <Link href="/help" role="menuitem"><Icon name="info" size={20} /> Help Center</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/apartments?saved=1" role="menuitem"><Icon name="heart" size={20} /> Wishlists</Link>
+                    <Link href="/login" role="menuitem"><Icon name="calendar" size={20} /> Trips</Link>
+                    <Link href="/login" role="menuitem"><Icon name="sparkle" size={20} /> Messages</Link>
+                    <Link href="/login" role="menuitem"><Icon name="user" size={20} /> Log in or sign up</Link>
+                    <hr />
+                    <button type="button" role="menuitem" onClick={() => { setMenu(false); openPicker(); }}><Icon name="globe" size={20} /> Languages & currency</button>
+                    <Link href="/help" role="menuitem"><Icon name="info" size={20} /> Help Center</Link>
+                  </>
+                )}
                 <hr />
-                <button role="menuitem" onClick={() => { setMenu(false); openPicker(); }}><Icon name="globe" size={18} /> Language and currency · {cur}</button>
+                {loggedIn && (
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      localStorage.removeItem('ps-auth');
+                      window.location.assign('/login');
+                    }}
+                  >
+                    <Icon name="user" size={20} /> Log out
+                  </button>
+                )}
+                <Link href="/account?tab=hosting" role="menuitem" className="menu-host"><Icon name="key" size={20} /> <span><b>Become a host</b><small>It&apos;s easy to start hosting and earn extra income.</small></span></Link>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {path !== '/' && path !== '/login' && <div className="wrap-wide hdr-search">
+      {path !== '/' && path !== '/login' && path !== '/account' && <div className="wrap-wide hdr-search">
         <div className="pill" role="search">
           <Link href="/apartments" className="seg"><small>Where</small><span>Search neighbourhoods</span></Link>
           <Link href="/apartments?open=dates" className="seg"><small>When</small><span>Add dates</span></Link>
@@ -110,9 +153,9 @@ export default function Header() {
           <nav className="mnav-links" aria-label="Mobile">
             {NAV.map((n) => <Link key={n.href} href={n.href} className={isActive(n.href) ? 'on' : ''}><Icon name={n.icon} size={20} /> {n.label}</Link>)}
             <Link href={loggedIn ? '/account' : '/apartments?saved=1'}><Icon name="heart" size={20} /> Saved apartments{saved.length ? ` (${saved.length})` : ''}</Link>
-            <Link href="/host"><Icon name="key" size={20} /> Host your apartment</Link>
             <Link href={loggedIn ? '/account' : '/login'}><Icon name="user" size={20} /> {loggedIn ? 'My account' : 'Log in or sign up'}</Link>
             <Link href="/help"><Icon name="info" size={20} /> Help Centre</Link>
+            {loggedIn && <button type="button" className="mnav-logout" onClick={() => { localStorage.removeItem('ps-auth'); window.location.assign('/login'); }}><Icon name="user" size={20} /> Log out</button>}
           </nav>
           <div className="mnav-foot">
             <Link href="/apartments" className="btn brand block"><Icon name="search" size={18} /> Search apartments</Link>

@@ -11,6 +11,12 @@ export default function LoginPage() {
 
   const submit = (event) => {
     event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const name = String(form.get('name') || '').trim();
+    const email = String(form.get('email') || '').trim();
+    if (name) localStorage.setItem('ps-name', name);
+    else if (email) localStorage.setItem('ps-name', email.split('@')[0]);
+    if (email) localStorage.setItem('ps-email', email);
     localStorage.setItem('ps-auth', '1');
     setSubmitted(true);
 

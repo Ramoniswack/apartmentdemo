@@ -5,7 +5,7 @@ import { BRAND } from '../lib/data';
 
 const COLS = [
   { title: 'Explore', links: [['Apartments', '/apartments'], ['Map', '/map'], ['Experiences', '/experiences'], ['Neighbourhoods', '/neighborhoods']] },
-  { title: 'Hosting', links: [['List your apartment', '/host'], ['Earnings estimator', '/host'], ['Hosting standards', '/help'], ['Photo visit', '/host']] },
+  { title: 'Hosting', links: [['List your apartment', '/account?tab=hosting'], ['Earnings estimator', '/account?tab=hosting'], ['Hosting standards', '/help'], ['Photo visit', '/account?tab=hosting']] },
   { title: 'Support', links: [['Help Centre', '/help'], ['Safety information', '/help'], ['Cancellation options', '/help'], ['Contact', '/help']] },
 ];
 const LEGAL = [['Privacy', '/help'], ['Terms', '/help'], ['Cookies', '/help'], ['Sitemap', '/help']];
@@ -21,7 +21,7 @@ export default function Footer() {
           </div>
           <div className="foot-cta-btns">
             <Link href="/apartments" className="btn brand">Browse apartments <Icon name="arrow" size={16} /></Link>
-            <Link href="/host" className="btn ghost">Become a host</Link>
+            <Link href="/account?tab=hosting" className="btn ghost">Become a host</Link>
           </div>
         </div>
 

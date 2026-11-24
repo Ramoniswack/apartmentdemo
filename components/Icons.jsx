@@ -3,7 +3,7 @@ import {
   SlidersHorizontal, Map, List, Wifi, UtensilsCrossed, Car, ArrowUpDown, WashingMachine, Tv,
   Laptop, Bath, Mountain, Waves, Sun, Leaf, Flame, Coffee, Zap, Check, ShieldCheck, MapPin,
   MessageSquareText, BedDouble, Users, House, Calendar, KeyRound, Award, Camera, Wallet,
-  CirclePlay, Minus, Plus, LayoutGrid, ArrowRight, Info, Star as StarIcon,
+  CirclePlay, Minus, Plus, LayoutGrid, ArrowRight, Info, Bell, Star as StarIcon,
 } from 'lucide-react';
 
 // Icon names used across the app mapped to lucide-react components.
@@ -17,7 +17,7 @@ const MAP = {
   bolt: Zap, check: Check, shield: ShieldCheck, pin: MapPin, sparkle: MessageSquareText,
   bed: BedDouble, users: Users, home: House, calendar: Calendar, key: KeyRound,
   award: Award, camera: Camera, wallet: Wallet, play: CirclePlay, minus: Minus, plus: Plus,
-  grid: LayoutGrid, arrow: ArrowRight, info: Info,
+  grid: LayoutGrid, arrow: ArrowRight, info: Info, bell: Bell,
 };
 
 export default function Icon({ name, size = 20, fill = false, className = '', strokeWidth = 1.8, ...rest }) {
