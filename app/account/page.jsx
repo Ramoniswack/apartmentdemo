@@ -8,7 +8,7 @@ import ListingCard from '../../components/ListingCard';
 import Icon from '../../components/Icons';
 import { useApp } from '../../components/Providers';
 import { LISTINGS } from '../../lib/data';
-import { Estimator, Dashboard, ApplyForm } from '../../components/HostClient';
+import { Estimator, ApplyForm } from '../../components/HostClient';
 
 const TABS = [
   ['profile', 'Profile', 'user'],
@@ -141,17 +141,13 @@ export default function AccountPage() {
 
             {active === 'hosting' && (
               <div className="hosting-dashboard">
-                <div className="account-section-head"><div><p className="eyebrow">Hosting</p><h2>Host dashboard</h2><p className="muted">Estimate earnings and manage your apartment application.</p></div></div>
+                <div className="account-section-head hosting-head"><div><p className="eyebrow">Hosting</p><h2>Host your apartment</h2><p className="muted">Estimate your earnings and share a few details to get started.</p></div></div>
                 <section className="host-account-section">
                   <h3>Estimate your earnings</h3>
                   <Estimator />
                 </section>
-                <section className="host-account-section">
-                  <h3>Your sample dashboard</h3>
-                  <Dashboard />
-                </section>
                 <section className="host-account-section apply-account">
-                  <div><h3>Ready to host?</h3><p className="muted">Tell us a little and a Pokhara-based advisor will be in touch.</p></div>
+                  <div><p className="eyebrow">Next step</p><h3>Start an application</h3><p className="muted">Add your contact details and neighbourhood. Nothing is submitted outside this demo.</p></div>
                   <ApplyForm />
                 </section>
               </div>

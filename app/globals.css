@@ -205,6 +205,15 @@ input[type=range] { width: 100%; accent-color: var(--brand); }
 .host-account-section > h3 { margin-bottom: 14px; font-size: 20px; }
 .apply-account { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--soft); }
 .apply-account h3 { margin-bottom: 6px; }
+.hosting-dashboard { max-width: 980px; }
+.hosting-head { margin-bottom: 24px; }
+.hosting-dashboard .host-account-section { margin-top: 28px; }
+.hosting-dashboard .host-account-section > h3 { margin-bottom: 12px; font-size: 20px; }
+.hosting-dashboard .est { grid-template-columns: 1fr 1fr; gap: 16px; }
+.hosting-dashboard .est-out { min-height: 230px; border-radius: 16px; padding: 28px; }
+.hosting-dashboard .est-n { font-size: 42px; }
+.hosting-dashboard .est-in { border-radius: 16px; padding: 22px; gap: 16px; }
+.hosting-dashboard .apply-account { background: #fff; border-radius: 16px; padding: 24px; }
 .account-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 16px; }
 .account-empty { min-height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; border: 1px solid var(--line); border-radius: var(--r); background: var(--soft); }
 .account-empty h2 { margin-top: 4px; }
