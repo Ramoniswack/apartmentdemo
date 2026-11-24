@@ -7,14 +7,15 @@ export const metadata = { title: 'Experiences in Pokhara' };
 export default function Experiences() {
   return (
     <main>
-      <section className="wrap-wide sec">
-        <div className="sec-h"><div><h2>Local experiences, hosted by neighbours</h2><p className="muted">Sample experiences. Prices are per person.</p></div></div>
+      <section className="wrap-wide experience-list-section">
+        <div className="sec-h experience-sec-h"><div><p className="eyebrow">Popular this week</p><h2>Local experiences, hosted by neighbours</h2><p className="muted">Sample experiences. Prices are per person.</p></div></div>
         <div className="exp-grid">
           {EXPERIENCES.map((e) => (
             <article key={e.id} className="exp">
               <div className="exp-img">
                 <img src={img(e.img)} alt={e.title} loading="lazy" style={{ objectPosition: e.pos }} />
                 {e.tag && <span className="lc-badge">{e.tag}</span>}
+                {e.time && <span className="experience-time">{e.time}</span>}
               </div>
               <div className="lc-row"><b>{e.title}</b></div>
               <p className="muted">{e.area} · {e.dur}</p>
