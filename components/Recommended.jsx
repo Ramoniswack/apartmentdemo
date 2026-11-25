@@ -1,6 +1,5 @@
 'use client';
 import { useMemo } from 'react';
-import Rail from './Rail';
 import ListingCard from './ListingCard';
 import { useApp } from './Providers';
 import { LISTINGS } from '../lib/data';
@@ -21,9 +20,14 @@ export default function Recommended() {
   }, [saved]);
 
   return (
-    <section className="sec">
-      <div className="sec-h"><div><h2>{title}</h2><p className="muted">{sub}</p></div></div>
-      <Rail>{items.map((l) => <div className="rail-i" key={l.id}><ListingCard l={l} /></div>)}</Rail>
+    <section className="home-recommendations">
+      <div className="home-section-heading">
+        <div><p className="eyebrow">Picked for your next stay</p><h2>{title}</h2></div>
+        <p className="home-section-description">{sub}</p>
+      </div>
+      <div className="recommended-grid">
+        {items.slice(0, 4).map((l) => <ListingCard key={l.id} l={l} cardClassName="lcard--horizontal" />)}
+      </div>
     </section>
   );
 }

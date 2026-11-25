@@ -30,11 +30,11 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 24);
+    const on = () => setScrolled(window.scrollY > (path === '/' ? 40 : 24));
     on();
     window.addEventListener('scroll', on, { passive: true });
     return () => window.removeEventListener('scroll', on);
-  }, []);
+  }, [path]);
 
   useEffect(() => setMenu(false), [path]);
 
@@ -58,7 +58,7 @@ export default function Header() {
   const isActive = (h) => (h === '/apartments' ? path.startsWith('/apartments') : h === '/experiences' ? path === '/experiences' : h === '/neighborhoods' ? path.startsWith('/neighborhoods') : false);
 
   return (
-    <header className={`hdr${scrolled ? ' is-scrolled' : ''}`}>
+    <header className={`hdr${path === '/' ? ' home-hdr' : ''}${scrolled ? ' is-scrolled' : ''}`}>
       <div className="wrap-wide hdr-top">
         <Link href="/" className="logo" aria-label={`${BRAND} home`}>
           <LogoMark />
