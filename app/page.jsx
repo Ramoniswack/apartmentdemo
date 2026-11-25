@@ -5,6 +5,7 @@ import Recommended from '../components/Recommended';
 import Reveal from '../components/Reveal';
 import StatsStrip from '../components/StatsStrip';
 import Icon from '../components/Icons';
+import HomeSearch from '../components/HomeSearch';
 import { AREAS, LISTINGS, byArea, img } from '../lib/data';
 
 const FLEX = [
@@ -53,20 +54,7 @@ export default function Home() {
           <div className="hero-copy">
             <h1>Apartments with the<br />mountains for a view.</h1>
           </div>
-          <div className="glass-search">
-            <details className="glass-search-disclosure">
-              <summary className="search-summary">
-                <span>Anywhere · Any week · Add guests</span>
-                <span className="search-summary-button"><Icon name="search" size={19} strokeWidth={2.4} /></span>
-              </summary>
-            </details>
-            <div className="glass-search-fields" role="group" aria-label="Search stays">
-              <Link href="/apartments" className="gs-seg"><small>Where</small><span>Anywhere</span></Link>
-              <Link href="/apartments?open=dates" className="gs-seg"><small>When</small><span>Any week</span></Link>
-              <Link href="/apartments?open=guests" className="gs-seg"><small>Who</small><span>Add guests</span></Link>
-              <Link href="/apartments" className="gs-go" aria-label="Search"><Icon name="search" size={20} strokeWidth={2.4} /></Link>
-            </div>
-          </div>
+          <HomeSearch />
         </div>
       </section>
 
