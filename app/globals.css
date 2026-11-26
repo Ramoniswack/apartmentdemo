@@ -565,17 +565,267 @@ button.lc-body { width: 100%; border: 0; background: transparent; color: inherit
 .experience-feature-details b { color: #fff; }
 .experience-feature-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; color: #fff; font-size: 13px; font-weight: 700; }
 .experience-feature-link:hover { color: #c9ddff; }
-.experience-list-section { position: relative; padding: 78px 0 96px; background: linear-gradient(180deg, #fff 0%, #f7f9fc 100%); }
-.experience-section-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+/* ─────────────────────────────────────────────
+   EXPERIENCE LIST SECTION — section shell
+───────────────────────────────────────────── */
+.experience-list-section {
+  position: relative;
+  background: #f4f7fb;
+  overflow: hidden;
+}
+
+/* Intro header band */
+.exp-intro-band {
+  padding: 80px 0 52px;
+  background: #fff;
+}
+.experience-section-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 .experience-section-intro .eyebrow { color: var(--brand-d); }
 .experience-section-intro h2 { max-width: 720px; margin-top: 9px; color: #172033; font-size: clamp(32px, 4.2vw, 50px); font-weight: 600; letter-spacing: -0.055em; line-height: 1.06; }
 .experience-section-note { max-width: 230px; padding: 4px 0 4px 16px; border-left: 2px solid #c8d9f3; color: var(--muted); font-size: 13px; line-height: 1.6; }
-.experience-mosaic { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 66px; gap: 16px; }
-.experience-tile { position: relative; grid-column: span 3; grid-row: span 4; min-height: 312px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 25px; background: #14233b; color: #fff; box-shadow: 0 10px 28px rgba(18, 35, 59, 0.12); isolation: isolate; }
-.experience-mosaic > .experience-tile:nth-child(5n + 1) { grid-column: span 6; grid-row: span 5; }
-.experience-mosaic > .experience-tile:nth-child(5n + 2), .experience-mosaic > .experience-tile:nth-child(5n + 3) { grid-column: span 3; grid-row: span 4; }
-.experience-mosaic > .experience-tile:nth-child(5n + 4), .experience-mosaic > .experience-tile:nth-child(5n) { grid-column: span 4; grid-row: span 4; }
+
+/* ─────────────────────────────────────────────
+   GALLERY CLUSTERS — shared wrapper
+───────────────────────────────────────────── */
+.exp-cluster {
+  position: relative;
+  padding: 52px 0;
+}
+.exp-cluster--tinted {
+  padding: 72px 0;
+  background: linear-gradient(160deg, #0f1f38 0%, #17304f 60%, #1a3a5c 100%);
+}
+
+/* Subtle noise texture on the tinted cluster */
+.exp-cluster-tint-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Floating area label on the tinted cluster */
+.exp-cluster-label {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+.exp-cluster-label .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+.exp-cluster-label .eyebrow::before,
+.exp-cluster-label .eyebrow::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ─────────────────────────────────────────────
+   BREAKERS
+───────────────────────────────────────────── */
+
+/* Breaker 1 — pull-quote */
+.exp-breaker--quote {
+  padding: 72px 0;
+  background: #fff;
+  border-top: 1px solid #eaeff6;
+  border-bottom: 1px solid #eaeff6;
+}
+.exp-breaker-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+.exp-pull-quote {
+  position: relative;
+  max-width: 680px;
+  text-align: center;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+  color: #172033;
+  font-style: normal;
+}
+.exp-pull-mark {
+  position: absolute;
+  top: -0.3em;
+  left: -0.5em;
+  font-size: 5em;
+  line-height: 1;
+  color: #dce8f8;
+  font-family: Georgia, serif;
+  pointer-events: none;
+  user-select: none;
+}
+.exp-pull-mark--close {
+  top: auto;
+  left: auto;
+  bottom: -0.55em;
+  right: -0.5em;
+}
+.exp-breaker-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 18px 32px;
+  background: #f4f7fb;
+  border: 1px solid #e3eaf5;
+  border-radius: 999px;
+}
+.exp-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 28px;
+}
+.exp-stat b {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #172033;
+}
+.exp-stat span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.exp-stat-sep {
+  width: 1px;
+  height: 36px;
+  background: #d8e3f0;
+  flex: none;
+}
+
+/* Breaker 2 — area-tag divider */
+.exp-breaker--divider {
+  padding: 44px 0;
+  background: #f4f7fb;
+}
+.exp-breaker-divider-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.exp-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c8d9f0 30%, #c8d9f0 70%, transparent);
+}
+.exp-area-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  flex: none;
+}
+.exp-area-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border: 1px solid #d0dff0;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #3a5070;
+  box-shadow: 0 2px 6px rgba(18, 50, 90, 0.06);
+}
+
+/* ─────────────────────────────────────────────
+   GALLERY MOSAICS — shared base grid
+───────────────────────────────────────────── */
+.experience-mosaic {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: 72px;
+  grid-auto-flow: row dense;
+  gap: 18px;
+}
+
+/* ── Cluster A (5 tiles): bands 1–2 ── */
+/* Band 1: large 16:9 anchor + two stacked halves */
+.experience-mosaic--a > .experience-tile:nth-child(1) { grid-column: span 8; grid-row: span 6; }
+.experience-mosaic--a > .experience-tile:nth-child(2) { grid-column: span 4; grid-row: span 3; }
+.experience-mosaic--a > .experience-tile:nth-child(3) { grid-column: span 4; grid-row: span 3; }
+/* Band 2: twin 2:1 landscapes */
+.experience-mosaic--a > .experience-tile:nth-child(4) { grid-column: span 6; grid-row: span 4; }
+.experience-mosaic--a > .experience-tile:nth-child(5) { grid-column: span 6; grid-row: span 4; }
+/* Copy sizing */
+.experience-mosaic--a > .experience-tile:nth-child(1) .experience-tile-copy { right: 30px; bottom: 28px; left: 30px; }
+.experience-mosaic--a > .experience-tile:nth-child(1) .experience-tile-copy h3 { font-size: clamp(22px, 2.3vw, 30px); }
+.experience-mosaic--a > .experience-tile:nth-child(1) .experience-tile-top { top: 20px; right: 20px; left: 20px; }
+.experience-mosaic--a > .experience-tile:nth-child(4) .experience-tile-copy,
+.experience-mosaic--a > .experience-tile:nth-child(5) .experience-tile-copy { right: 24px; bottom: 22px; left: 24px; }
+
+/* ── Cluster B (2 tiles): band 3 — portrait + wide ── */
+.experience-mosaic--b > .experience-tile:nth-child(1) { grid-column: span 3; grid-row: span 6; }
+.experience-mosaic--b > .experience-tile:nth-child(2) { grid-column: span 9; grid-row: span 6; }
+/* Copy sizing */
+.experience-mosaic--b > .experience-tile:nth-child(1) .experience-tile-copy { right: 16px; bottom: 16px; left: 16px; }
+.experience-mosaic--b > .experience-tile:nth-child(1) .experience-tile-copy h3 { font-size: 17px; }
+.experience-mosaic--b > .experience-tile:nth-child(1) .experience-tile-bottom { margin-top: 8px; gap: 5px; }
+.experience-mosaic--b > .experience-tile:nth-child(2) .experience-tile-copy { right: 30px; bottom: 28px; left: 30px; }
+.experience-mosaic--b > .experience-tile:nth-child(2) .experience-tile-copy h3 { font-size: clamp(22px, 2.3vw, 30px); }
+.experience-mosaic--b > .experience-tile:nth-child(2) .experience-tile-top { top: 20px; right: 20px; left: 20px; }
+
+/* ── Cluster C (5 tiles): bands 4–5 ── */
+/* Band 4: even 4:3 trio */
+.experience-mosaic--c > .experience-tile:nth-child(1) { grid-column: span 4; grid-row: span 4; }
+.experience-mosaic--c > .experience-tile:nth-child(2) { grid-column: span 4; grid-row: span 4; }
+.experience-mosaic--c > .experience-tile:nth-child(3) { grid-column: span 4; grid-row: span 4; }
+/* Band 5: 4:3 + panoramic closer */
+.experience-mosaic--c > .experience-tile:nth-child(4) { grid-column: span 4; grid-row: span 4; }
+.experience-mosaic--c > .experience-tile:nth-child(5) { grid-column: span 8; grid-row: span 4; }
+/* Copy sizing */
+.experience-mosaic--c > .experience-tile:nth-child(1) .experience-tile-copy,
+.experience-mosaic--c > .experience-tile:nth-child(2) .experience-tile-copy,
+.experience-mosaic--c > .experience-tile:nth-child(3) .experience-tile-copy,
+.experience-mosaic--c > .experience-tile:nth-child(4) .experience-tile-copy { right: 16px; bottom: 16px; left: 16px; }
+.experience-mosaic--c > .experience-tile:nth-child(1) .experience-tile-copy h3,
+.experience-mosaic--c > .experience-tile:nth-child(2) .experience-tile-copy h3,
+.experience-mosaic--c > .experience-tile:nth-child(3) .experience-tile-copy h3,
+.experience-mosaic--c > .experience-tile:nth-child(4) .experience-tile-copy h3 { font-size: 17px; }
+.experience-mosaic--c > .experience-tile:nth-child(1) .experience-tile-bottom,
+.experience-mosaic--c > .experience-tile:nth-child(2) .experience-tile-bottom,
+.experience-mosaic--c > .experience-tile:nth-child(3) .experience-tile-bottom,
+.experience-mosaic--c > .experience-tile:nth-child(4) .experience-tile-bottom { margin-top: 8px; gap: 5px; }
+.experience-mosaic--c > .experience-tile:nth-child(5) .experience-tile-copy { right: 24px; bottom: 22px; left: 24px; }
+
+/* ─────────────────────────────────────────────
+   SHARED TILE STYLES
+───────────────────────────────────────────── */
+.experience-tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #14233b;
+  color: #fff;
+  box-shadow: 0 12px 32px rgba(18, 35, 59, 0.14);
+  isolation: isolate;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* Tiles inside the dark cluster get a lighter initial shadow */
+.exp-cluster--tinted .experience-tile { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3); }
+
 .experience-tile > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.experience-tile:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(18, 35, 59, 0.22); }
 .experience-tile:hover > img { transform: scale(1.055); }
 .experience-tile-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(7, 18, 35, 0.24) 0%, rgba(7, 18, 35, 0.04) 34%, rgba(7, 18, 35, 0.9) 100%); }
 .experience-tile-top { position: absolute; z-index: 2; top: 14px; right: 14px; left: 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
@@ -592,22 +842,50 @@ button.lc-body { width: 100%; border: 0; background: transparent; color: inherit
 .experience-tile-bottom p b { color: #fff; font-weight: 700; }
 .experience-tile-bottom a { display: inline-flex; align-items: center; gap: 5px; color: #c5dcff; font-size: 11px; font-weight: 700; }
 .experience-tile-bottom a:hover { color: #fff; }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
 @media (max-width: 1000px) {
   .experience-hero-layout { gap: 30px; min-height: 520px; }
   .experience-hero-copy h1 { font-size: clamp(48px, 6.6vw, 68px); }
   .experience-feature { min-height: 420px; }
-  .experience-mosaic { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 68px; gap: 14px; }
-  .experience-mosaic > .experience-tile:nth-child(5n + 1) { grid-column: span 6; grid-row: span 4; }
-  .experience-mosaic > .experience-tile:nth-child(5n + 2),
-  .experience-mosaic > .experience-tile:nth-child(5n + 3),
-  .experience-mosaic > .experience-tile:nth-child(5n + 4),
-  .experience-mosaic > .experience-tile:nth-child(5n) { grid-column: span 3; grid-row: span 4; }
+  .experience-mosaic { grid-auto-rows: 56px; gap: 12px; }
+  /* Cluster A */
+  .experience-mosaic--a > .experience-tile:nth-child(1) { grid-column: span 12; grid-row: span 4; }
+  .experience-mosaic--a > .experience-tile:nth-child(2) { grid-column: span 6; grid-row: span 3; }
+  .experience-mosaic--a > .experience-tile:nth-child(3) { grid-column: span 6; grid-row: span 3; }
+  .experience-mosaic--a > .experience-tile:nth-child(4) { grid-column: span 6; grid-row: span 4; }
+  .experience-mosaic--a > .experience-tile:nth-child(5) { grid-column: span 6; grid-row: span 4; }
+  .experience-mosaic--a > .experience-tile:nth-child(1) .experience-tile-copy { right: 22px; bottom: 20px; left: 22px; }
+  .experience-mosaic--a > .experience-tile:nth-child(1) .experience-tile-top { top: 16px; right: 16px; left: 16px; }
+  /* Cluster B */
+  .experience-mosaic--b > .experience-tile:nth-child(1) { grid-column: span 4; grid-row: span 5; }
+  .experience-mosaic--b > .experience-tile:nth-child(2) { grid-column: span 8; grid-row: span 5; }
+  .experience-mosaic--b > .experience-tile:nth-child(2) .experience-tile-copy { right: 22px; bottom: 20px; left: 22px; }
+  .experience-mosaic--b > .experience-tile:nth-child(2) .experience-tile-top { top: 16px; right: 16px; left: 16px; }
+  /* Cluster C */
+  .experience-mosaic--c > .experience-tile:nth-child(1) { grid-column: span 4; grid-row: span 4; }
+  .experience-mosaic--c > .experience-tile:nth-child(2) { grid-column: span 4; grid-row: span 4; }
+  .experience-mosaic--c > .experience-tile:nth-child(3) { grid-column: span 4; grid-row: span 4; }
+  .experience-mosaic--c > .experience-tile:nth-child(4) { grid-column: span 4; grid-row: span 4; }
+  .experience-mosaic--c > .experience-tile:nth-child(5) { grid-column: span 8; grid-row: span 4; }
 }
 @media (max-width: 760px) {
   .experience-hero-layout { grid-template-columns: 1fr; gap: 26px; min-height: 0; padding-top: 36px; padding-bottom: 38px; }
   .experience-hero-copy { max-width: 680px; }
   .experience-feature { min-height: 420px; }
-  .experience-list-section { padding-top: 58px; padding-bottom: 72px; }
+  .exp-intro-band { padding: 56px 0 36px; }
+  .exp-cluster { padding: 36px 0; }
+  .exp-cluster--tinted { padding: 52px 0; }
+  .exp-breaker--quote { padding: 52px 0; }
+  .exp-pull-quote { font-size: clamp(20px, 5vw, 28px); }
+  .exp-pull-mark { font-size: 4em; }
+  .exp-breaker-stats { padding: 14px 20px; }
+  .exp-stat { padding: 0 18px; }
+  .exp-stat b { font-size: 18px; }
+  .exp-breaker--divider { padding: 32px 0; }
+  .exp-area-tags { gap: 6px; }
 }
 @media (max-width: 640px) {
   .experience-hero-layout { gap: 24px; padding-top: 28px; padding-bottom: 30px; }
@@ -619,13 +897,41 @@ button.lc-body { width: 100%; border: 0; background: transparent; color: inherit
   .experience-feature-count, .experience-feature-tags > span { padding: 7px 9px; font-size: 10px; }
   .experience-feature-copy { right: 18px; bottom: 20px; left: 18px; }
   .experience-feature-copy h2 { font-size: 28px; }
-  .experience-section-intro { align-items: flex-start; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+  .experience-section-intro { align-items: flex-start; flex-direction: column; gap: 14px; }
   .experience-section-intro h2 { font-size: clamp(30px, 9vw, 42px); }
   .experience-section-note { max-width: none; }
-  .experience-mosaic { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 14px; }
-  .experience-mosaic > .experience-tile:nth-child(n) { grid-column: 1 / -1; grid-row: auto; min-height: 350px; border-radius: 22px; }
-  .experience-tile-copy { right: 16px; bottom: 16px; left: 16px; }
-  .experience-tile-copy h3 { font-size: 21px; }
+  /* All mosaics: 2-column on mobile */
+  .experience-mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 56px; gap: 10px; }
+  /* Cluster A mobile */
+  .experience-mosaic--a > .experience-tile:nth-child(1) { grid-column: span 2; grid-row: span 5; }
+  .experience-mosaic--a > .experience-tile:nth-child(2),
+  .experience-mosaic--a > .experience-tile:nth-child(3) { grid-column: span 1; grid-row: span 4; }
+  .experience-mosaic--a > .experience-tile:nth-child(4),
+  .experience-mosaic--a > .experience-tile:nth-child(5) { grid-column: span 1; grid-row: span 4; }
+  /* Cluster B mobile */
+  .experience-mosaic--b > .experience-tile:nth-child(1) { grid-column: span 2; grid-row: span 4; }
+  .experience-mosaic--b > .experience-tile:nth-child(2) { grid-column: span 2; grid-row: span 5; }
+  /* Cluster C mobile */
+  .experience-mosaic--c > .experience-tile:nth-child(1),
+  .experience-mosaic--c > .experience-tile:nth-child(2),
+  .experience-mosaic--c > .experience-tile:nth-child(3),
+  .experience-mosaic--c > .experience-tile:nth-child(4) { grid-column: span 1; grid-row: span 4; }
+  .experience-mosaic--c > .experience-tile:nth-child(5) { grid-column: span 2; grid-row: span 4; }
+  /* Normalise all copy on mobile */
+  .experience-mosaic > .experience-tile .experience-tile-copy { right: 14px; bottom: 14px; left: 14px; }
+  .experience-mosaic > .experience-tile .experience-tile-copy h3 { font-size: 16px; }
+  .experience-mosaic--a > .experience-tile:nth-child(1) .experience-tile-copy h3,
+  .experience-mosaic--b > .experience-tile:nth-child(2) .experience-tile-copy h3,
+  .experience-mosaic--c > .experience-tile:nth-child(5) .experience-tile-copy h3 { font-size: 20px; }
+  .experience-mosaic > .experience-tile .experience-tile-bottom { margin-top: 8px; gap: 5px; }
+  /* Pull-quote layout collapses on small screens */
+  .exp-pull-quote { font-size: clamp(18px, 5.5vw, 24px); }
+  .exp-pull-mark { display: none; }
+  .exp-breaker-stats { flex-wrap: wrap; border-radius: 20px; padding: 14px 16px; gap: 0; }
+  .exp-stat { padding: 8px 14px; }
+  .exp-stat-sep { display: none; }
+  .exp-breaker-divider-inner { gap: 12px; }
+  .exp-area-tag { font-size: 11px; padding: 6px 12px; }
 }
 
 /* ---------- Search results ---------- */
