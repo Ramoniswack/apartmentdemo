@@ -61,7 +61,9 @@ export default function Header() {
     <header className={`hdr${path === '/' ? ' home-hdr' : ''}${scrolled ? ' is-scrolled' : ''}`}>
       <div className="wrap-wide hdr-top">
         <Link href="/" className="logo" aria-label={`${BRAND} home`}>
-          <LogoMark />
+          {path === '/' && !scrolled
+            ? <img className="logo-image" src="/images/demostay-logo-hero.png" alt="" aria-hidden="true" />
+            : <LogoMark />}
         </Link>
 
         <nav className="hdr-nav" aria-label="Primary">
