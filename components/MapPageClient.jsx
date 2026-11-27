@@ -43,7 +43,7 @@ export default function MapPageClient() {
   };
 
   return (
-    <main className="results">
+    <main className="results map-results">
       <div className="filterbar">
         <div className="wrap-wide fb-in">
           <div className="map-page-head">

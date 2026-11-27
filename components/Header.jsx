@@ -50,14 +50,23 @@ export default function Header() {
   useEffect(() => { setMnav(false); }, [path]);
   useEffect(() => {
     document.documentElement.style.overflow = mnav ? 'hidden' : '';
+    document.body.style.overflow = mnav ? 'hidden' : '';
+    if (mnav) window.__lenis?.stop();
+    else window.__lenis?.start();
     const key = (e) => e.key === 'Escape' && setMnav(false);
     window.addEventListener('keydown', key);
-    return () => { window.removeEventListener('keydown', key); document.documentElement.style.overflow = ''; };
+    return () => {
+      window.removeEventListener('keydown', key);
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      window.__lenis?.start();
+    };
   }, [mnav]);
 
   const isActive = (h) => (h === '/apartments' ? path.startsWith('/apartments') : h === '/experiences' ? path === '/experiences' : h === '/neighborhoods' ? path.startsWith('/neighborhoods') : false);
 
   return (
+    <>
     <header className={`hdr${path === '/' ? ' home-hdr' : ''}${scrolled ? ' is-scrolled' : ''}`}>
       <div className="wrap-wide hdr-top">
         <Link href="/" className="logo" aria-label={`${BRAND} home`}>
@@ -146,8 +155,10 @@ export default function Header() {
           <Link href="/apartments" className="pill-go" aria-label="Search"><Icon name="search" size={18} strokeWidth={2.4} /></Link>
         </div>
       </div>}
+    </header>
       {mnav && (
-        <div className="mnav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation" data-lenis-prevent>
+        <div className="mnav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation" data-lenis-prevent
+          onClick={(event) => { if (event.target.closest('a,button')) setMnav(false); }}>
           <div className="mnav-top">
             <Link href="/" className="logo" aria-label={`${BRAND} home`}><LogoMark /></Link>
             <button className="hamburger" onClick={() => setMnav(false)} aria-label="Close navigation"><Icon name="close" size={24} /></button>
@@ -165,6 +176,6 @@ export default function Header() {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
